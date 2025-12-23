@@ -1,0 +1,507 @@
+AOS.init({ duration: 1000, once: true });
+
+// Enhanced Flower Petal Animation with varieties
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let petals = [];
+
+function createPetals() {
+    for (let i = 0; i < 35; i++) {
+        petals.push({ 
+            x: Math.random() * canvas.width, 
+            y: Math.random() * canvas.height, 
+            r: Math.random() * 5 + 2, 
+            d: Math.random() * 1, 
+            a: Math.random() * 4,
+            opacity: Math.random() * 0.5 + 0.3,
+            speed: Math.random() * 0.5 + 0.5
+        });
+    }
+}
+
+function drawPetals() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    petals.forEach(p => { 
+        ctx.fillStyle = `rgba(255, 182, 193, ${p.opacity})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+        ctx.fill();
+    });
+    updatePetals();
+}
+
+function updatePetals() {
+    petals.forEach(p => { 
+        p.y += Math.cos(p.d) * p.speed + 0.5 + p.r / 2; 
+        p.x += Math.sin(p.a) * 1.5; 
+        if (p.y > canvas.height) { 
+            p.y = -10; 
+            p.x = Math.random() * canvas.width; 
+        } 
+    });
+}
+
+setInterval(drawPetals, 35);
+createPetals();
+
+// Handle window resize for canvas
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+// Music toggle control
+const musicToggle = document.getElementById('musicToggle');
+function updateMusicButton() {
+    const audio = document.getElementById('myAudio');
+    if (!musicToggle) return;
+    musicToggle.textContent = audio && !audio.paused ? '🔊' : '🔈';
+}
+
+function toggleAudio() {
+    const audio = document.getElementById('myAudio');
+    if (!audio) return;
+    if (audio.paused) {
+        audio.play().catch(() => {});
+    } else {
+        audio.pause();
+    }
+    updateMusicButton();
+}
+
+if (musicToggle) musicToggle.addEventListener('click', toggleAudio);
+
+// FUNGSI UTAMA BUKA JEMPUTAN
+function mulaMajlis() {
+    const audio = document.getElementById("myAudio");
+    audio.play().catch(e => console.log("Audio blocked"));
+
+    // Buka lock scroll
+    document.body.classList.remove('modal-open');
+
+    // Slide overlay ke atas
+    const overlay = document.getElementById("overlay");
+    overlay.style.transform = "translateY(-100%)";
+
+    // Paparkan kandungan utama
+    const mainContent = document.getElementById("main-content");
+    setTimeout(() => {
+        mainContent.style.display = "block";
+        setTimeout(() => {
+            mainContent.style.opacity = "1";
+            overlay.style.display = "none";
+            // reveal music control
+            const m = document.getElementById('musicToggle');
+            if (m) m.style.display = 'block';
+            updateMusicButton();
+            AOS.refresh(); // PENTING: Refresh animasi AOS selepas elemen muncul
+        }, 100);
+    }, 600);
+}
+
+// Countdown Logic — separate boxes for days/hours/minutes/seconds (target: 31 May 2026 11:00)
+const targetDate = new Date('2026-05-31T11:00:00').getTime();
+function updateCountdown(){
+    const now = Date.now();
+    const gap = targetDate - now;
+    const el = document.getElementById('countdown-timer');
+    if (!el) return;
+    if (gap > 0) {
+        const d = Math.floor(gap / 86400000);
+        const h = Math.floor((gap % 86400000) / 3600000);
+        const m = Math.floor((gap % 3600000) / 60000);
+        const s = Math.floor((gap % 60000) / 1000);
+        el.innerHTML = `
+            <div class="countdown-grid">
+                <div class="countdown-item"><div class="countdown-value">${d}</div><div class="countdown-label">Hari</div></div>
+                <div class="countdown-item"><div class="countdown-value">${String(h).padStart(2,'0')}</div><div class="countdown-label">Jam</div></div>
+                <div class="countdown-item"><div class="countdown-value">${String(m).padStart(2,'0')}</div><div class="countdown-label">Minit</div></div>
+                <div class="countdown-item"><div class="countdown-value">${String(s).padStart(2,'0')}</div><div class="countdown-label">Saat</div></div>
+            </div>`;
+    } else {
+        el.innerHTML = `<p class="countdown-pill">Selamat Pengantin Baru!</p>`;
+    }
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+function toggleGift() {
+    const info = document.getElementById("gift-info");
+    info.style.display = info.style.display === "none" ? "block" : "none";
+}
+
+// Toast helper
+function showToast(message, timeout = 2200){
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = message;
+    document.body.appendChild(t);
+    setTimeout(() => t.classList.add('visible'), 20);
+    setTimeout(() => { t.classList.remove('visible'); setTimeout(()=>t.remove(),300); }, timeout);
+}
+
+// Copy bank account to clipboard with feedback
+const copyBtn = document.getElementById('copyBank');
+if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+        const acc = document.getElementById('bank-acc');
+        if (!acc) return;
+        const text = acc.textContent.trim();
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('Nombor akaun disalin');
+        }).catch(() => alert('Gagal menyalin'));
+    });
+}
+
+// Generate simple ICS file for Add to Calendar
+function generateICS(e) {
+    e.preventDefault();
+    const start = new Date('2025-07-12T11:00:00');
+    const end = new Date('2025-07-12T16:00:00');
+    function formatDate(d){
+        return d.toISOString().replace(/-|:|\.\d{3}/g,'');
+    }
+    const ics = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//WanaJahidWedding//EN',
+        'BEGIN:VEVENT',
+        `UID:${Date.now()}@wanajahid`,
+        `DTSTAMP:${formatDate(new Date())}`,
+        `DTSTART:${formatDate(start)}`,
+        `DTEND:${formatDate(end)}`,
+        'SUMMARY:Walimatulurus Wana & Jahid',
+        'LOCATION:Dewan Banquet Putrajaya, Presint 3',
+        'DESCRIPTION:Kami menjemput anda ke majlis perkahwinan kami.',
+        'END:VEVENT',
+        'END:VCALENDAR'
+    ].join('\r\n');
+    const blob = new Blob([ics], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Wana-Jahid-Wedding.ics';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
+
+// Keyboard accessibility: toggle audio with Enter/Space when focused; 'm' shortcut when not typing
+if (musicToggle) {
+    musicToggle.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAudio(); }
+    });
+}
+document.addEventListener('keydown', e => {
+    const active = document.activeElement;
+    const typing = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.tagName === 'SELECT');
+    if (typing) return;
+    if (e.key.toLowerCase() === 'm') toggleAudio();
+});
+
+// WhatsApp Share functionality
+const shareBtn = document.getElementById('shareBtn');
+if (shareBtn) {
+    shareBtn.addEventListener('click', () => {
+        const text = encodeURIComponent('Saya diundang ke Walimatulurus Wana & Jahid! 💍 Sabtu, 12 Julai 2025 di Dewan Banquet Putrajaya. Datang bersama saya! ');
+        const url = window.location.href;
+        const waURL = `https://wa.me/?text=${text}${encodeURIComponent(url)}`;
+        window.open(waURL, '_blank');
+    });
+}
+
+// Dark Mode Toggle
+const darkModeToggle = document.getElementById('darkModeToggle');
+let isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+function applyDarkMode() {
+    if (isDarkMode) {
+        document.documentElement.style.setProperty('--cream', '#1a1a1a');
+        document.documentElement.style.setProperty('--ivory', '#242424');
+        document.documentElement.style.setProperty('--dark', '#e0e0e0');
+        document.documentElement.style.setProperty('--light-accent', '#444');
+        document.body.classList.add('dark-mode');
+        darkModeToggle.textContent = '☀️';
+    } else {
+        document.documentElement.style.setProperty('--cream', '#FBF8F3');
+        document.documentElement.style.setProperty('--ivory', '#F5F1EB');
+        document.documentElement.style.setProperty('--dark', '#2C2C2C');
+        document.documentElement.style.setProperty('--light-accent', '#E8DCC8');
+        document.body.classList.remove('dark-mode');
+        darkModeToggle.textContent = '🌙';
+    }
+}
+
+if (darkModeToggle) {
+    darkModeToggle.addEventListener('click', () => {
+        isDarkMode = !isDarkMode;
+        localStorage.setItem('darkMode', isDarkMode);
+        applyDarkMode();
+    });
+}
+
+applyDarkMode();
+
+// Confetti Animation
+function createConfetti() {
+    const container = document.getElementById('confetti-container');
+    const confettiPieces = 50;
+    for (let i = 0; i < confettiPieces; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = ['#D4AF8E', '#C9A876', '#FFE8D6', '#fff'][Math.floor(Math.random() * 4)];
+        confetti.style.animationDelay = Math.random() * 0.3 + 's';
+        container.appendChild(confetti);
+    }
+    setTimeout(() => container.innerHTML = '', 3000);
+}
+
+// Back to Top button behavior (footer)
+const backToTop = document.getElementById('backToTop');
+if (backToTop) {
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// Floating Action Buttons: Contact, Location, Directions, Gallery
+
+const fabRSVP = document.getElementById('fabRSVP');
+const fabContact = document.getElementById('fabContact');
+const fabLocation = document.getElementById('fabLocation');
+const fabGallery = document.getElementById('fabGallery');
+
+if (fabRSVP) {
+    fabRSVP.addEventListener('click', () => {
+        const rsvp = document.getElementById('rsvp-form');
+        if (rsvp) {
+            rsvp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const first = rsvp.querySelector('input, select, textarea, button');
+            if (first) first.focus();
+        }
+    });
+}
+
+if (fabContact) {
+    fabContact.addEventListener('click', () => {
+        const contact = document.getElementById('contact-section');
+        if (contact) {
+            contact.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const first = contact.querySelector('a, button, input');
+            if (first) first.focus();
+        } else {
+            window.open('https://wa.me/60112345678?text=Assalamualaikum', '_blank');
+        }
+    });
+}
+
+if (fabLocation) {
+    fabLocation.addEventListener('click', () => {
+        const loc = document.getElementById('location-section');
+        if (loc) {
+            loc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            window.open('LINK_MAPS', '_blank');
+        }
+    });
+}
+
+// 'Arah' (directions) FAB removed — use Location (Google Maps) or Waze links in the location section.
+
+if (fabGallery) {
+    fabGallery.addEventListener('click', () => {
+        const gallery = document.querySelector('.gallery-grid');
+        if (gallery) gallery.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+}
+
+// RSVP Form
+const scriptURL = 'https://script.google.com/macros/s/AKfycbwsnn7OBwLnXB8W5s3hqHcY2odMoLNw8hN0dfvbqEyaR0wfXKpF1tNKY4GEjt9seUpp/exec';
+const SECRET_TOKEN = 'wanajahidwedding2026';
+const form = document.getElementById('rsvp-form');
+form.addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.innerHTML = "Menghantar...";
+    btn.disabled = true;
+
+    // Save to localStorage immediately (backup)
+    const newEntry = {
+        nama: form.nama.value,
+        kehadiran: form.kehadiran.value,
+        jumlah: form.jumlah.value,
+        ucapan: form.ucapan.value,
+        created: new Date().toISOString()
+    };
+    const rsvps = getRSVPs();
+    rsvps.push(newEntry);
+    localStorage.setItem('rsvps', JSON.stringify(rsvps));
+    renderGuestbook();
+
+    // Submit to Apps Script using a hidden iframe (avoids CORS preflight for POST)
+    const iframeName = 'rsvp_target_iframe';
+    let iframe = document.getElementById(iframeName);
+    if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.name = iframeName;
+        iframe.id = iframeName;
+        document.body.appendChild(iframe);
+    }
+
+    // Ensure token input exists
+    let tokenInput = form.querySelector('input[name="token"]');
+    if (!tokenInput) {
+        tokenInput = document.createElement('input');
+        tokenInput.type = 'hidden';
+        tokenInput.name = 'token';
+        form.appendChild(tokenInput);
+    }
+    tokenInput.value = SECRET_TOKEN;
+
+    // Configure form to post to Apps Script in background
+    form.action = scriptURL;
+    form.method = 'POST';
+    form.target = iframeName;
+
+    // Fire-and-forget submit (response is handled by Apps Script server)
+    form.submit();
+
+    // UI feedback
+    showToast('RSVP dihantar!');
+    document.getElementById('success-msg').textContent = 'Terima kasih! RSVP dihantar. 🎉';
+    document.getElementById('success-msg').style.display = 'block';
+    createConfetti();
+
+    // reset button and form fields (keep local backup)
+    btn.innerHTML = "HANTAR RSVP";
+    btn.disabled = false;
+    form.reset();
+});
+
+// --- Guestbook rendering (localStorage-backed) ---
+function escapeHtml(str){
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+}
+
+function getRSVPs(){
+    try { return JSON.parse(localStorage.getItem('rsvps') || '[]'); } catch(e){ return []; }
+}
+
+function renderGuestbook(){
+    const listEl = document.getElementById('guestbook-list');
+    const emptyEl = document.getElementById('guestbook-empty');
+    if (!listEl) return;
+    const items = getRSVPs().slice().reverse(); // newest first
+    listEl.innerHTML = '';
+    if (items.length === 0) {
+        emptyEl.style.display = 'block';
+        return;
+    }
+    emptyEl.style.display = 'none';
+    items.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'guestbook-entry';
+        const name = escapeHtml(item.nama || item.name || 'Tetamu');
+        const hadir = escapeHtml(item.kehadiran || '—');
+        const pax = escapeHtml(item.jumlah || '—');
+        const ucapan = escapeHtml(item.ucapan || '');
+        const created = new Date(item.created || Date.now()).toLocaleString();
+        li.innerHTML = `
+            <div class="guestbook-meta">${name}<span class="guestbook-time">${created}</span></div>
+            <div class="guestbook-content">
+                <div style="font-weight:600; margin-bottom:4px;">Kehadiran: ${hadir} &nbsp; • &nbsp; Pax: ${pax}</div>
+                <div style="color:#444">${ucapan || '<em>Tiada ucapan</em>'}</div>
+            </div>`;
+        listEl.appendChild(li);
+    });
+}
+
+// Initial render on load
+document.addEventListener('DOMContentLoaded', () => {
+    renderGuestbook();
+});
+
+// Listen to storage events so other tabs/devices update the guestbook live
+window.addEventListener('storage', (e) => {
+    if (e.key === 'rsvps') renderGuestbook();
+});
+
+// Fetch live guestbook from Google Sheet via Apps Script using JSONP (works cross-origin)
+function fetchRemoteGuestbook(){
+    // Use dynamic JSONP callback to avoid CORS issues
+    const cbName = 'wanajahid_guestbook_cb_' + Date.now();
+    window[cbName] = function(rows){
+        try {
+            if (!Array.isArray(rows)) {
+                console.warn('Invalid guestbook JSONP response');
+                return;
+            }
+            const mapped = rows.map(r => ({
+                nama: r['Nama'] || r.nama || 'Tetamu',
+                kehadiran: r['Kehadiran'] || r.kehadiran || 'N/A',
+                jumlah: r['Jumlah'] || r.jumlah || '1',
+                ucapan: r['Ucapan'] || r.ucapan || '',
+                created: r['Timestamp'] || new Date().toISOString()
+            }));
+            localStorage.setItem('rsvps', JSON.stringify(mapped));
+            renderGuestbook();
+        } finally {
+            // cleanup
+            const s = document.getElementById(cbName);
+            if (s) s.remove();
+            try { delete window[cbName]; } catch(e) { window[cbName] = null; }
+        }
+    };
+    const script = document.createElement('script');
+    script.id = cbName;
+    script.src = scriptURL + '?action=list&callback=' + cbName;
+    script.async = true;
+    script.onerror = function(err){
+        console.warn('JSONP guestbook load failed', err);
+        const s = document.getElementById(cbName);
+        if (s) s.remove();
+        try { delete window[cbName]; } catch(e) { window[cbName] = null; }
+    };
+    document.body.appendChild(script);
+}
+
+// Load guestbook on page load
+window.addEventListener('load', () => { 
+    if (typeof fetchRemoteGuestbook === 'function') fetchRemoteGuestbook(); 
+});
+
+// Contact-card click/keyboard handler: clicking the card initiates phone call (tel:), WA links still work.
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.contact-card').forEach(card => {
+        // Click on card initiates call
+        card.addEventListener('click', (e) => {
+            // If clicked element is a link (e.g., WhatsApp), let that handle it
+            const target = e.target.closest('a');
+            if (target) return;
+            const tel = card.dataset.tel;
+            if (tel) window.location.href = 'tel:' + tel;
+        });
+
+        // Keyboard accessibility
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const tel = card.dataset.tel;
+                if (tel) window.location.href = 'tel:' + tel;
+            }
+        });
+
+        // Prevent WA link clicks from bubbling to the card
+        card.querySelectorAll('a').forEach(a => a.addEventListener('click', (ev) => ev.stopPropagation()));
+    });
+});
