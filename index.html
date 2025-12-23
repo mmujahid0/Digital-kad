@@ -7,7 +7,7 @@
     <title>Walimatulurus Wana & Jahid</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600&family=Sacramento&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:wght@300;400;600&family=Sacramento&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
     <link rel="stylesheet" href="style.css">
@@ -15,8 +15,8 @@
 </head>
 <body class="modal-open"> <canvas id="canvas"></canvas>
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <button id="musicToggle" class="btn-small" aria-label="Toggle music" style="position:fixed; top:20px; right:20px; z-index:11000; display:none;">🔈</button>
-    <button id="darkModeToggle" class="btn-small" aria-label="Toggle dark mode" style="position:fixed; top:20px; right:75px; z-index:11000;">🌙</button>
+    <button id="musicToggle" class="btn-small" aria-label="Toggle music" style="position:fixed; top:20px; right:20px; z-index:13000; display:none;">🔈</button>
+    <button id="darkModeToggle" class="btn-small" aria-label="Toggle dark mode" style="position:fixed; top:20px; right:75px; z-index:13000;">🌙</button>
     <div id="confetti-container"></div>
 
     <audio id="myAudio" loop>
@@ -28,7 +28,11 @@
             <h2 class="sacramento gold">Walimatulurus</h2>
             <h1 class="nama-pengantin-overlay">Wana & Jahid</h1>
             <div class="divider-gold"></div>
-            <p style="color: white; margin-bottom: 20px;">Sabtu, 12 Julai 2025</p>
+            <p class="pantun" style="margin-bottom:12px;">Mekar mewangi bunga di taman,<br>
+                Hinggap kenari di dahan jati;<br>
+                Kehadiran kalian penyeri zaman,<br>
+                Saksi termeterai janji di hati.</p>
+            <p style="color: white; margin-bottom: 20px;">Ahad, 31 Mei 2026</p>
             <button class="btn-buka" onclick="mulaMajlis()">BUKA JEMPUTAN</button>
         </div>
     </div>
@@ -45,12 +49,29 @@
 
         <section class="section-container" data-aos="fade-up">
             <div class="glass-card">
-                <h3 class="sacramento gold">Assalamualaikum</h3>
-                <p class="kata-aluan">Kami menjemput Tuan/Puan ke majlis perkahwinan puteri kesayangan kami</p>
-                <h2 class="sacramento gold" style="font-size: 2.2rem;">Nur Wana binti (Nama)</h2>
-                <p style="color: #D4AF8E; font-size: 1.5rem; margin: 15px 0;">♥</p>
-                <h2 class="sacramento gold" style="font-size: 2.2rem;">Jahid bin (Nama)</h2>
-                <a href="URL_GOOGLE_CALENDAR" target="_blank" class="btn-small">📅 Simpan Tarikh</a>
+                <h3 class="sacramento gold">Assalamualaikum W.B.T</h3>
+                <p style="font-size: 0.95rem; margin: 15px 0; color: #666;">Salam Sejahtera</p>
+                <p style="font-size: 0.9rem; margin: 20px 0; line-height: 1.8; color: #555;">Dengan penuh hormat dan kesyukuran kepada Allah S.W.T, Kami</p>
+                
+                <div style="margin: 25px 0; padding: 20px; border-radius: 12px; background: linear-gradient(135deg, rgba(212,175,142,0.08), rgba(201,168,118,0.05)); border-left: 3px solid var(--gold);">
+                    <p style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin: 8px 0; color: var(--gold); letter-spacing: 0.5px;">Mohammad Zaki Bin Mohamed Kassim</p>
+                    <p style="font-family: 'Sacramento', cursive; font-size: 2rem; color: var(--gold); margin: 12px 0; font-weight: 400; opacity: 0.9;">&</p>
+                    <p style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin: 8px 0; color: var(--rose-gold); letter-spacing: 0.5px;">Suriyati Binti Mohamed Mokhtar</p>
+                </div>
+                
+                <p style="font-size: 0.9rem; margin: 20px 0; line-height: 1.8; color: #555;">dengan izin Allah S.W.T dan penuh kesyukuran, dengan hormatnya menjemput</p>
+                
+                <p style="font-size: 0.95rem; margin: 15px 0; color: #888; font-weight: 500;"><strong>Dato'/Datin/Tuan/Puan/Encik/Cik</strong></p>
+                
+                <p style="font-size: 0.9rem; margin: 20px 0; line-height: 1.8; color: #555;">ke majlis perkahwinan putera kami</p>
+                
+                <h2 class="sacramento" style="font-size: 1.6rem; margin: 30px 0 25px; color: var(--gold); letter-spacing: 1px;">Mohammad Mujahid Bin Mohammad Zaki</h2>
+                
+                <p style="font-family: 'Sacramento', cursive; font-size: 2rem; color: var(--gold); margin: 12px 0; font-weight: 400; opacity: 0.9;">&</p>
+                
+                <h2 class="sacramento" style="font-size: 1.6rem; margin: 25px 0 30px; color: var(--dark-gold); letter-spacing: 1px;">Zawanah Binti Mohamad</h2>
+                
+                <a href="URL_GOOGLE_CALENDAR" target="_blank" class="btn-small" style="margin-top: 25px;">📅 Simpan Tarikh</a>
             </div>
         </section>
 
@@ -67,12 +88,13 @@
         <section id="location-section" class="section-container" data-aos="fade-up">
             <div class="glass-card">
                 <h3 class="gold">Butiran Majlis</h3>
-                <p>12 Julai 2025 | 11 AM - 4 PM</p>
-                <p>Dewan Banquet Putrajaya, Presint 3</p>
+                <p>30 Mei 2026 (Sabtu) | 08 Malam - 12 Malam</p>
+                <p>31 Mei 2026 (Ahad) | 11 Pagi - 4 Petang </p>
+                <p>Di Halaman Lot 3897 Jalan Lombong Perak 2, Kampong Lombong Seksyen 29 40460 Shah Alam, Selangor</p>
                 <div class="btn-group">
-                    <a href="LINK_MAPS" target="_blank" class="btn-nav">📍 Google Maps</a>
+                    <a href="https://maps.app.goo.gl/C7DRfZaneurBwURa9" target="_blank" class="btn-nav">📍 Google Maps</a>
                     <a href="LINK_WAZE" target="_blank" class="btn-nav">📍 Waze</a>
-                    <a href="https://wa.me/60112345678?text=Assalamualaikum%20Wana%20dan%20Jahid.%20Saya%20ingin%20tanya%20tentang%20majlis%20perkahwinan%20anda." target="_blank" class="btn-nav">💬 Hubungi via WhatsApp</a>
+                    <a href="https://wa.me/60178708236?text=Assalamualaikum%20Wana%20dan%20Jahid.%20Saya%20ingin%20tanya%20tentang%20majlis%20perkahwinan%20anda." target="_blank" class="btn-nav">💬 Hubungi via WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -97,11 +119,13 @@
         <section id="contact-section" class="section-container" data-aos="fade-up">
             <div class="glass-card">
                 <h3 class="gold">Hubungi</h3>
-                <p>Ibu Bapa: <a href="tel:+60123456789">+60 12-345 6789</a></p>
-                <p>Pengantin: <a href="tel:+60119876543">+60 11-987 6543</a></p>
-                <div style="margin-top:10px; display:flex; gap:10px; justify-content:center;">
-                    <a href="https://wa.me/60123456789" target="_blank" class="btn-nav">💬 Hubungi Ibu Bapa</a>
-                    <a href="https://wa.me/60119876543" target="_blank" class="btn-nav">💬 Hubungi Pengantin</a>
+                <p>En. Zaki: <a href="tel:+60115878890">011-5878 8900</a></p>
+                <p>Pn Suriyati: <a href="tel:+60131767669">011-3176 7669</a></p>
+                <p>Mujahid: <a href="tel:+60178708236">017-870 8236</a></p>
+                <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+                    <a href="https://wa.me/60115878890" target="_blank" class="btn-nav">💬 Encik Zaki</a>
+                    <a href="https://wa.me/60131767669" target="_blank" class="btn-nav">💬 Puan Suriyati</a>
+                    <a href="https://wa.me/60178708236" target="_blank" class="btn-nav">💬 Mujahid</a>
                 </div>
             </div>
         </section>
@@ -110,7 +134,7 @@
             <div class="glass-card">
                 <h3 class="gold">👔 Dress Code</h3>
                 <p><strong>Formal Attire</strong></p>
-                <p>Lelaki: Baju Melayu atau Suit / Tuxedo</p>
+                <p>Lelaki: Baju Melayu atau forms</p>
                 <p>Perempuan: Kebaya atau Gaun Formal</p>
                 <p style="font-size: 0.9rem; margin-top: 10px; color: #999;">Warna yang disarankan: Gold, Cream, atau Dark Colors</p>
             </div>
@@ -126,7 +150,19 @@
                         <option value="Hadir">Hadir</option>
                         <option value="Tidak Hadir">Tidak Hadir</option>
                     </select>
-                    <input type="number" name="jumlah" placeholder="Bilangan Pax">
+                    <select name="jumlah">
+                        <option value="">Bilangan Pax</option>
+                        <option value="1">1 Orang</option>
+                        <option value="2">2 Orang</option>
+                        <option value="3">3 Orang</option>
+                        <option value="4">4 Orang</option>
+                        <option value="5">5 Orang</option>
+                        <option value="6">6 Orang</option>
+                        <option value="7">7 Orang</option>
+                        <option value="8">8 Orang</option>
+                        <option value="9">9 Orang</option>
+                        <option value="10">10+ Orang</option>
+                    </select>
                     <textarea name="ucapan" placeholder="Ucapan buat kami..."></textarea>
                     <button type="submit" id="submitBtn" class="btn-submit">HANTAR RSVP</button>
                 </form>
@@ -135,7 +171,7 @@
         </section>
 
         <footer class="footer">
-            <p>#WanaJahidWedding</p>
+            <p>&copy; 2026 Mujahid & Wana. All rights reserved. | Terima kasih kehadiran anda.</p>
             <div style="margin-top:15px;">
                 <button id="backToTop" class="btn-small" type="button">Kembali ke Atas</button>
             </div>
