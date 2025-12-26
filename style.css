@@ -13,7 +13,7 @@
 body { 
     font-family: 'Poppins', sans-serif; 
     /* Show intro background by default (before Buka Jemputan) */
-    background: url('img/intro-bg.PNG') center/cover fixed no-repeat;
+    background: url('img/bg2cats.png') center/cover fixed no-repeat;
     background-color: var(--cream);
     text-align: center; 
     color: var(--dark);
@@ -33,7 +33,7 @@ canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 50; }
     /* Intro background for the first page only - place your image at img/intro-bg.png */
     background:
         linear-gradient(135deg, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.15) 100%),
-        url('img/intro-bg.PNG') center center / cover no-repeat;
+        url('img/bg2cats.png') center center / cover no-repeat;
     z-index: 10000; 
     display: flex; justify-content: center; align-items: center; 
     transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1); 
