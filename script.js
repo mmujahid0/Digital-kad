@@ -300,8 +300,52 @@ function generateICS(e) {
     URL.revokeObjectURL(url);
 }
 
-// Ensure `generateICS` is available on the global scope for inline `onclick` handlers
-if (typeof window !== 'undefined') window.generateICS = generateICS;
+// Generate ICS for 31 May only (for first button)
+function generateICS31May(e) {
+    console.log('generateICS31May called');
+    if (e && typeof e.preventDefault === 'function') {
+        e.preventDefault();
+    } else if (window.event) {
+        window.event.returnValue = false;
+    }
+
+    function formatDate(d){
+        return d.toISOString().replace(/-|:|\.\d{3}/g,'');
+    }
+
+    // Create event for 31 May 2026, 11:00 AM - 5:00 PM
+    const startDate = new Date(2026, 4, 31, 11, 0); // May is month 4 (0-indexed)
+    const endDate = new Date(2026, 4, 31, 17, 0);
+
+    const icsLines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//WanaJahid//EN'];
+    icsLines.push('BEGIN:VEVENT');
+    icsLines.push(`UID:${Date.now()}-${Math.random().toString(36).slice(2)}@wanajahid`);
+    icsLines.push(`DTSTAMP:${formatDate(new Date())}`);
+    icsLines.push(`DTSTART:${formatDate(startDate)}`);
+    icsLines.push(`DTEND:${formatDate(endDate)}`);
+    icsLines.push('SUMMARY:Walimatulurus Wana & Jahid - 31 Mei 2026');
+    icsLines.push('LOCATION:Lot 3897 Jalan Lombong Perak 2, Kampong Lombong Seksyen 29, 40460 Shah Alam, Selangor');
+    icsLines.push('DESCRIPTION:Kami menjemput anda ke majlis perkahwinan kami.');
+    icsLines.push('END:VEVENT');
+    icsLines.push('END:VCALENDAR');
+
+    const ics = icsLines.join('\r\n');
+    const blob = new Blob([ics], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Wana-Jahid-Majlis-31Mai.ics';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
+
+// Ensure both functions are available on the global scope for inline `onclick` handlers
+if (typeof window !== 'undefined') {
+    window.generateICS = generateICS;
+    window.generateICS31May = generateICS31May;
+}
 
 // Keyboard accessibility: toggle audio with Enter/Space when focused; 'm' shortcut when not typing
 if (musicToggle) {
