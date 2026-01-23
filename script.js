@@ -176,7 +176,7 @@ function mulaMajlis() {
             mainContent.style.opacity = "1";
             overlay.style.display = "none";
             // Switch body background to main wedding background after opening
-            document.body.style.background = "url('img/wedding-bg.PNG') center/cover fixed no-repeat";
+            document.body.style.background = "url('img/bg2cats.png') center/cover fixed no-repeat";
             // reveal music control
             const m = document.getElementById('musicToggle');
             if (m) m.style.display = 'block';
@@ -1025,3 +1025,4 @@ function downloadQR() {
         });
 
 }
+
