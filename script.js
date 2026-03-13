@@ -44,14 +44,12 @@ function resetAutoSlide() {
 
 // Start auto-slide on page load
 document.addEventListener('DOMContentLoaded', () => {
-    startAutoSlide();
+    // startAutoSlide(); // Removed auto-slide as requested
     
-    // Pause auto-slide on thumbnail hover/click
+    // Auto-slide disabled - manual thumbnail clicks only
     const thumbs = document.querySelectorAll('.gallery-thumb');
     thumbs.forEach(thumb => {
-        thumb.addEventListener('click', resetAutoSlide);
-        thumb.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-        thumb.addEventListener('mouseleave', startAutoSlide);
+        // Removed auto-slide event listeners
     });
 });
 
@@ -60,10 +58,7 @@ const gallerySwiper = new Swiper('.wedding-gallery', {
     slidesPerView: 1,
     spaceBetween: 20,
     loop: true,
-    autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-    },
+    autoplay: false, // Disabled auto-play
     pagination: {
         el: '.wedding-gallery .swiper-pagination',
         clickable: true,
@@ -1027,4 +1022,3 @@ function downloadQR() {
         });
 
 }
-
